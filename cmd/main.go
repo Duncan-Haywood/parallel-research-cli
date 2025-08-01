@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/duncan/parallel-research-cli/pkg/evaluator"
 	"github.com/duncan/parallel-research-cli/pkg/models"
 	"github.com/duncan/parallel-research-cli/pkg/orchestrator"
 	"github.com/spf13/cobra"
@@ -88,6 +89,7 @@ Features:
 	rootCmd.AddCommand(versionCmd())
 	rootCmd.AddCommand(modelsCmd())
 	rootCmd.AddCommand(estimateCmd())
+	rootCmd.AddCommand(evaluateCmd())
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -191,4 +193,39 @@ func estimateCmd() *cobra.Command {
 			fmt.Println("Cost estimation is being updated for the new intensity-based system.")
 		},
 	}
+}
+
+func evaluateCmd() *cobra.Command {
+	var filePath string
+
+	cmd := &cobra.Command{
+		Use:   "evaluate [file]",
+		Short: "Evaluate an essay from a file",
+		Args:  cobra.ExactArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			filePath = args[0]
+			runEvaluation(filePath)
+		},
+	}
+
+	return cmd
+}
+
+func runEvaluation(filePath string) {
+	essay, err := os.ReadFile(filePath)
+	if err != nil {
+		fmt.Printf("Error reading file: %v\n", err)
+		os.Exit(1)
+	}
+
+	rubric := &evaluator.Rubric{}
+	eval := evaluator.NewEvaluator(rubric)
+
+	score, err := eval.Score(string(essay))
+	if err != nil {
+		fmt.Printf("Error evaluating essay: %v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("Essay score: %.2f\n", score)
 }
