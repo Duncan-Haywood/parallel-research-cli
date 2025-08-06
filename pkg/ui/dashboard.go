@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/duncan/parallel-research-cli/pkg/models"
+	"github.com/duncan/essayforge/pkg/models"
 	"github.com/fatih/color"
 	"strings"
 )

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/duncan/parallel-research-cli/pkg/models"
+	"github.com/duncan/essayforge/pkg/models"
 )
 
 // Formatter interface for different output formats
