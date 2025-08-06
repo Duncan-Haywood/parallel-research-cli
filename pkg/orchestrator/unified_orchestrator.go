@@ -10,11 +10,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/duncan/parallel-research-cli/pkg/agents"
-	"github.com/duncan/parallel-research-cli/pkg/models"
-	"github.com/duncan/parallel-research-cli/pkg/output"
-	"github.com/duncan/parallel-research-cli/pkg/synthesis"
-	"github.com/duncan/parallel-research-cli/pkg/ui"
+	"github.com/duncan/essayforge/pkg/agents"
+	"github.com/duncan/essayforge/pkg/models"
+	"github.com/duncan/essayforge/pkg/output"
+	"github.com/duncan/essayforge/pkg/synthesis"
+	"github.com/duncan/essayforge/pkg/ui"
 
 	"github.com/dleviminzi/anthrogo"
 	"github.com/fatih/color"
@@ -106,7 +106,7 @@ func (o *Orchestrator) conductParallelResearch() ([]*models.ResearchResult, erro
 	var results []*models.ResearchResult
 	var mu sync.Mutex
 
-	tempDir, err := os.MkdirTemp("", "parallel-research-*")
+	tempDir, err := os.MkdirTemp("", "essayforge-*")
 	if err != nil {
 		return nil, err
 	}

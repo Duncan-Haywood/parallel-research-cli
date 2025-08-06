@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/duncan/parallel-research-cli/pkg/models"
-	"github.com/duncan/parallel-research-cli/pkg/orchestrator"
+	"github.com/duncan/essayforge/pkg/models"
+	"github.com/duncan/essayforge/pkg/orchestrator"
 	"github.com/spf13/cobra"
 )
 
@@ -37,17 +37,18 @@ var (
 
 func main() {
 	var rootCmd = &cobra.Command{
-		Use:   "parallel-research",
-		Short: "A parallel research system using the Claude API",
-		Long: `Orchestrates multiple Claude API calls in parallel to conduct thorough research and generate well-cited essays.
-		
+		Use:   "essayforge",
+		Short: "Adversarial synthesis for research excellence",
+		Long: `An AI-powered research synthesis system inspired by GANs, where Creator and Evaluator agents 
+collaborate through iterative refinement to produce publication-quality essays.
+
 Features:
-- Adjustable research intensity to control depth and breadth.
+- Adversarial creator-evaluator dynamics for quality improvement.
+- Iterative refinement with quality thresholds.
 - Parallel execution with best-of-N selection.
 - Multiple output formats (Markdown, LaTeX, HTML).
-- Real-time progress dashboard.
-- Token usage and cost tracking.
-- Quality scoring and citation management.`,
+- Real-time progress and dialogue visualization.
+- Token usage and cost tracking.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			if topic == "" {
 				fmt.Println("Error: topic is required")
@@ -165,7 +166,7 @@ func versionCmd() *cobra.Command {
 		Use:   "version",
 		Short: "Print version information",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("parallel-research-cli v3.0.0")
+			fmt.Println("EssayForge v3.0.0")
 		},
 	}
 }

@@ -1,4 +1,4 @@
-module github.com/duncan/parallel-research-cli
+module github.com/duncan/essayforge
 
 go 1.21
 

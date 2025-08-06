@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/duncan/parallel-research-cli/pkg/models"
+	"github.com/duncan/essayforge/pkg/models"
 	"github.com/fatih/color"
 )
 
@@ -299,7 +299,7 @@ func (s *Synthesizer) formatEssay(topic string, content string, citations []mode
 	formatted.WriteString(fmt.Sprintf(`---
 title: "Comprehensive Analysis: %s"
 date: %s
-synthesis_method: parallel-research-best-of-n
+synthesis_method: essayforge-adversarial
 ---
 
 `, topic, time.Now().Format("2006-01-02")))
@@ -330,7 +330,7 @@ synthesis_method: parallel-research-best-of-n
 	formatted.WriteString(fmt.Sprintf(`
 
 ---
-*Generated using parallel-research-cli with best-of-%d selection.*
+*Generated using EssayForge with adversarial synthesis and best-of-%d selection.*
 `, s.bestOfN))
 
 	return formatted.String()
