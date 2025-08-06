@@ -1,4 +1,4 @@
-# EssayForge
+# ResearchEssayForge
 
 **Adversarial synthesis for research excellence**
 
