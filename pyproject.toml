@@ -1,0 +1,70 @@
+[tool.poetry]
+name = "essayforge"
+version = "3.0.0"
+description = "Adversarial synthesis for research excellence"
+authors = ["Duncan"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/duncan/essayforge"
+repository = "https://github.com/duncan/essayforge"
+keywords = ["ai", "research", "synthesis", "essay", "gpt", "claude"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+anthropic = "^0.7.0"
+click = "^8.1.0"
+rich = "^13.0.0"
+aiohttp = "^3.9.0"
+pydantic = "^2.0.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-asyncio = "^0.21.0"
+pytest-cov = "^4.1.0"
+black = "^23.0.0"
+flake8 = "^6.0.0"
+mypy = "^1.5.0"
+isort = "^5.12.0"
+
+[tool.poetry.scripts]
+essayforge = "essayforge.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = "-v --cov=essayforge --cov-report=html --cov-report=term"

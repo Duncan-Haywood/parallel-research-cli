@@ -51,148 +51,253 @@ An AI-powered research synthesis system inspired by Generative Adversarial Netwo
               [Final Essay Output]
 ```
 
-## How It Works: The Adversarial Loop
+## Features
 
-1. **Creation Phase**: Multiple Creator agents work in parallel to generate research content, arguments, and evidence from different perspectives.
-
-2. **Evaluation Phase**: Evaluator agents critically assess the output across multiple dimensions:
-   - Factual accuracy and citation quality
-   - Logical coherence and argument strength  
-   - Structural flow and readability
-   - Originality and insight depth
-
-3. **Feedback Integration**: The Creator network receives detailed feedback and regenerates improved content, focusing on identified weaknesses.
-
-4. **Convergence**: Through iterative refinement, the system converges on a high-quality essay that satisfies all evaluation criteria.
-
-## Key Features
-
-### Adversarial Synthesis
-- **Creator-Evaluator Dynamics**: Mimics GAN architecture with competing objectives
-- **Multi-Agent Collaboration**: Specialized agents for different aspects of research
-- **Iterative Refinement**: Continuous improvement through feedback loops
-- **Quality Metrics**: Automated scoring across multiple dimensions
-
-### Research Capabilities  
-- **Parallel Processing**: Multiple agents work simultaneously
-- **Best-of-N Selection**: Generate variations and select the highest quality
-- **Comprehensive Coverage**: Agents specialize in facts, arguments, counter-arguments, case studies, and more
-- **Citation Management**: Automatic extraction and formatting of all sources
-
-### Customization Options
-- **Depth Levels**: Quick, standard, thorough, or exhaustive research
-- **Quality Thresholds**: Set minimum quality scores for acceptance
-- **Iteration Limits**: Control the refinement process
-- **Output Formats**: Markdown, LaTeX, or HTML export
+- **GAN-Inspired Architecture**: Creator agents generate content while evaluator agents provide critical feedback, driving iterative improvement
+- **Multi-Agent Research System**: Deploy up to 10 specialized research agents working in parallel
+- **Intelligent Synthesis**: Advanced content merging and organization algorithms
+- **Quality Assurance**: Built-in fact-checking, citation verification, and coherence analysis
+- **Multiple Output Formats**: Export to Markdown, LaTeX, or HTML
+- **Real-time Dashboard**: Monitor progress, token usage, and costs as research proceeds
+- **Cost Controls**: Set token and dollar limits to manage API usage
+- **Demo Mode**: Test the system without API calls
 
 ## Installation
 
+### Prerequisites
+
+- Python 3.8 or higher
+- Poetry (for dependency management)
+- An Anthropic API key (get one at [console.anthropic.com](https://console.anthropic.com))
+
+### Install Poetry
+
+If you don't have Poetry installed:
+
 ```bash
+# Using the official installer (recommended)
+curl -sSL https://install.python-poetry.org | python3 -
+
+# Or using pip
+pip install poetry
+```
+
+### Install EssayForge
+
+```bash
+# Clone the repository
 git clone https://github.com/duncan/essayforge.git
 cd essayforge
-go mod tidy
-go build -o essayforge cmd/main.go
+
+# Install dependencies with Poetry
+poetry install
+
+# Activate the virtual environment
+poetry shell
+```
+
+### Set up your API key
+
+```bash
+export ANTHROPIC_API_KEY="your-api-key-here"
+```
+
+Or create a `.env` file in the project root:
+```
+ANTHROPIC_API_KEY=your-api-key-here
 ```
 
 ## Usage
 
-Set your Anthropic API key:
-```bash
-export ANTHROPIC_API_KEY="your-api-key"
-```
-
-Basic usage:
-```bash
-./essayforge -t "quantum computing applications in cryptography"
-```
-
-Advanced usage with full adversarial mode:
-```bash
-./essayforge \
-  -t "climate change mitigation strategies" \
-  -m adversarial \
-  --iterations 5 \
-  --quality-threshold 0.85 \
-  --creator-agents 8 \
-  --evaluator-agents 5 \
-  -o climate-essay \
-  -f latex \
-  --show-dialogue
-```
-
-## Command Line Options
-
-### Core Options
-- `-t, --topic`: Research topic (required)
-- `-m, --mode`: Generation mode: standard, adversarial, ultra (default: adversarial)
-- `--iterations`: Maximum adversarial iterations (default: 3)
-- `--quality-threshold`: Minimum quality score (0-1) to accept output (default: 0.8)
-
-### Agent Configuration
-- `--creator-agents`: Number of parallel creator agents (default: 6)
-- `--evaluator-agents`: Number of evaluator critics (default: 4)
-- `-n, --best-of`: Variations per agent for selection (default: 3)
-- `-d, --depth`: Research depth: quick, standard, thorough, exhaustive
-
-### Output Options
-- `-o, --output`: Output file path (default: essay.md)
-- `-f, --format`: Output format: markdown, latex, html
-- `--show-dialogue`: Display the creator-evaluator dialogue
-- `--save-iterations`: Save all iteration drafts
-
-### Resource Management
-- `--token-limit`: Maximum tokens to use (0 = unlimited)
-- `--cost-limit`: Maximum cost in USD (0 = unlimited)
-- `--model`: Claude model selection (opus, sonnet, haiku)
-
-## The Adversarial Advantage
-
-Traditional AI writing tools generate content in a single pass. EssayForge's adversarial approach ensures:
-
-1. **Higher Quality**: Critical evaluation identifies and fixes weaknesses
-2. **Better Citations**: Evaluators verify source quality and relevance
-3. **Stronger Arguments**: Logical flaws are caught and corrected
-4. **Improved Clarity**: Structure and flow are iteratively refined
-5. **Reduced Hallucination**: Fact-checking agents validate all claims
-
-## Example Workflow
+### Basic Usage
 
 ```bash
-# Generate a research essay with visible adversarial dialogue
-./essayforge \
-  -t "The impact of large language models on scientific research" \
-  -m adversarial \
-  --iterations 4 \
-  --show-dialogue \
-  --save-iterations \
-  -o llm-science-essay
+# Generate an essay on quantum computing
+poetry run essayforge -t "quantum computing"
 
-# Output:
-# → Iteration 1: Quality Score: 0.72 (Below threshold)
-# → Iteration 2: Quality Score: 0.81 (Improving...)  
-# → Iteration 3: Quality Score: 0.88 (Accepted!)
-# → Final essay saved to: llm-science-essay.md
-# → Iteration drafts saved to: llm-science-essay-iterations/
+# Or if you're in the poetry shell
+essayforge -t "quantum computing"
+
+# Use more research agents for deeper analysis
+poetry run essayforge -t "climate change" -i 8
+
+# Generate LaTeX output
+poetry run essayforge -t "artificial intelligence" -f latex -o research.tex
+
+# Demo mode (no API calls)
+poetry run essayforge -t "blockchain technology" --demo
 ```
 
-## Requirements
+### Advanced Options
 
-- Go 1.21+
-- Anthropic API key with Claude 3 access
-- Sufficient API credits for iterative generation
+```bash
+# Full example with all options
+poetry run essayforge \
+  -t "sustainable energy solutions" \
+  -i 10 \                    # Use all 10 research agents
+  -p 5 \                     # 5 parallel API calls
+  -n 3 \                     # Generate 3 variations, pick best
+  -o energy_research.html \  # Output file
+  -f html \                  # HTML format
+  --token-limit 50000 \      # Max 50k tokens
+  --cost-limit 5.0 \         # Max $5 cost
+  --model claude-3-opus-20240229  # Use most capable model
+```
+
+### Command Line Options
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--topic` | `-t` | Research topic (required) | - |
+| `--intensity` | `-i` | Number of research agents (1-10) | 5 |
+| `--parallel` | `-p` | Parallel API calls per agent | 3 |
+| `--best-of` | `-n` | Generate N variations, select best | 1 |
+| `--output` | `-o` | Output file path | essay.md |
+| `--format` | `-f` | Output format: markdown, latex, html | markdown |
+| `--demo` | - | Run without API calls | false |
+| `--no-open` | - | Don't auto-open the result | false |
+| `--no-dashboard` | - | Disable progress dashboard | false |
+| `--token-limit` | - | Maximum tokens (0=unlimited) | 0 |
+| `--cost-limit` | - | Maximum cost in USD (0=unlimited) | 0 |
+| `--model` | - | Claude model to use | claude-3-sonnet-20240229 |
+
+### Available Commands
+
+```bash
+# Show version
+poetry run essayforge version
+
+# List available Claude models
+poetry run essayforge models
+
+# Estimate costs (coming soon)
+poetry run essayforge estimate
+```
+
+## Research Agents
+
+The intensity parameter controls how many specialized agents are deployed:
+
+1. **Fact Gatherer** - Core facts and verifiable information
+2. **Current State** - Latest developments and trends
+3. **Expert Opinions** - Authoritative perspectives
+4. **Historical Context** - Background and evolution
+5. **Counter Arguments** - Critical analysis and opposing views
+6. **Future Projections** - Trends and predictions
+7. **Case Studies** - Real-world examples
+8. **Data Analysis** - Statistical insights
+9. **Theoretical Framework** - Academic foundations
+10. **Practical Applications** - Implementation strategies
+
+## Output Formats
+
+### Markdown (Default)
+- Clean, readable format
+- GitHub-compatible
+- Easy to convert to other formats
+
+### LaTeX
+- Publication-ready academic format
+- Professional typography
+- Citation management
+
+### HTML
+- Self-contained web page
+- Modern, responsive design
+- Interactive elements
+
+## Cost Management
+
+EssayForge provides detailed cost tracking:
+
+- Real-time token usage monitoring
+- Per-agent token tracking
+- Cost estimates based on current Claude pricing
+- Configurable limits to prevent overruns
+
+### Typical Costs
+
+| Intensity | Tokens (avg) | Cost (Sonnet) | Cost (Opus) |
+|-----------|--------------|---------------|-------------|
+| 3 agents | ~15,000 | ~$0.20 | ~$0.75 |
+| 5 agents | ~25,000 | ~$0.35 | ~$1.25 |
+| 10 agents | ~50,000 | ~$0.70 | ~$2.50 |
+
+## Development
+
+### Project Structure
+
+```
+essayforge/
+├── essayforge/
+│   ├── agents/          # Research agent definitions
+│   ├── models/          # Data models
+│   ├── orchestrator/    # Main coordination logic
+│   ├── synthesis/       # Content synthesis
+│   ├── output/          # Output formatting
+│   ├── ui/              # Dashboard and UI
+│   └── cli.py           # CLI entry point
+├── pyproject.toml       # Poetry configuration
+├── poetry.lock          # Locked dependencies
+└── README.md
+```
+
+### Running Tests
+
+```bash
+# Run tests
+poetry run pytest
+
+# Run with coverage
+poetry run pytest --cov=essayforge
+
+# Run linting
+poetry run flake8 essayforge
+poetry run mypy essayforge
+
+# Format code
+poetry run black essayforge
+poetry run isort essayforge
+```
+
+### Development Setup
+
+```bash
+# Install with development dependencies
+poetry install --with dev
+
+# Run in development mode
+poetry run essayforge --demo -t "test topic"
+```
+
+## Examples
+
+See the `examples/` directory for sample outputs and use cases. Run the example script:
+
+```bash
+python example.py  # Shows all examples
+python example.py 1  # Runs the first example
+```
 
 ## License
 
-MIT
+MIT License - see LICENSE file for details.
 
 ## Contributing
 
-We welcome contributions! Key areas for enhancement:
-- Additional evaluator critics for specialized domains
-- Alternative adversarial training strategies
-- Integration with other LLM providers
-- Real-time collaboration features
+Contributions are welcome! Please:
 
----
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes with proper tests
+4. Run the test suite and linting
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
-*EssayForge: Where AI agents debate to forge knowledge*
+## Acknowledgments
+
+- Inspired by GAN architecture and adversarial training
+- Built with Claude API by Anthropic
+- Uses Rich for beautiful terminal output
+- Managed with Poetry for modern Python packaging
