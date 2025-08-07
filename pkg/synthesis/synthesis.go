@@ -299,7 +299,7 @@ func (s *Synthesizer) formatEssay(topic string, content string, citations []mode
 	formatted.WriteString(fmt.Sprintf(`---
 title: "Comprehensive Analysis: %s"
 date: %s
-synthesis_method: essayforge-adversarial
+synthesis_method: essayforge-collaborative
 ---
 
 `, topic, time.Now().Format("2006-01-02")))
@@ -330,7 +330,7 @@ synthesis_method: essayforge-adversarial
 	formatted.WriteString(fmt.Sprintf(`
 
 ---
-*Generated using EssayForge with adversarial synthesis and best-of-%d selection.*
+*Generated using EssayForge with actor-critic collaborative synthesis and best-of-%d selection.*
 `, s.bestOfN))
 
 	return formatted.String()
