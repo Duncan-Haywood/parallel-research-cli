@@ -38,12 +38,13 @@ var (
 func main() {
 	var rootCmd = &cobra.Command{
 		Use:   "essayforge",
-		Short: "Adversarial synthesis for research excellence",
-		Long: `An AI-powered research synthesis system inspired by GANs, where Creator and Evaluator agents 
-collaborate through iterative refinement to produce publication-quality essays.
+		Short: "Multi-agent collaborative synthesis for research excellence",
+		Long: `An AI-powered research synthesis system implementing an Actor-Critic architecture inspired by 
+reinforcement learning, where Creator agents (actors) and Evaluator agents (critics) collaborate 
+through iterative refinement to produce publication-quality essays.
 
 Features:
-- Adversarial creator-evaluator dynamics for quality improvement.
+- Actor-critic dynamics with structured feedback for quality improvement.
 - Iterative refinement with quality thresholds.
 - Parallel execution with best-of-N selection.
 - Multiple output formats (Markdown, LaTeX, HTML).

@@ -1,10 +1,10 @@
 # ResearchEssayForge
 
-**Adversarial synthesis for research excellence**
+**Multi-agent collaborative synthesis for research excellence**
 
-An AI-powered research synthesis system inspired by Generative Adversarial Networks (GANs), where Creator and Evaluator agents collaborate through iterative refinement to produce publication-quality essays. The system implements a dialogue-based approach where agents compete and collaborate, with quality assessment driving continuous improvement—similar to how discriminators and generators work in GANs.
+An AI-powered research synthesis system implementing an Actor-Critic architecture inspired by reinforcement learning, where Creator agents (actors) and Evaluator agents (critics) collaborate through iterative refinement to produce publication-quality essays. The system implements a multi-agent collaborative approach where specialized agents work together, with quality assessment driving continuous improvement through structured feedback loops.
 
-## The GAN-Inspired Architecture
+## The Actor-Critic Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -13,7 +13,7 @@ An AI-powered research synthesis system inspired by Generative Adversarial Netwo
                          │
                          v
 ┌─────────────────────────────────────────────────────────┐
-│                  CREATOR NETWORK                         │
+│                  ACTOR NETWORK (Creators)                │
 │  ┌─────────────────────────────────────────────────┐   │
 │  │ • Fact Synthesis Agent                          │   │
 │  │ • Argument Construction Agent                   │   │
@@ -28,7 +28,7 @@ An AI-powered research synthesis system inspired by Generative Adversarial Netwo
                          │
                          v
 ┌─────────────────────────────────────────────────────────┐
-│                 EVALUATOR NETWORK                        │
+│                 CRITIC NETWORK (Evaluators)              │
 │  ┌─────────────────────────────────────────────────┐   │
 │  │ • Factual Accuracy Critic                       │   │
 │  │ • Argument Coherence Critic                     │   │
@@ -48,42 +48,38 @@ An AI-powered research synthesis system inspired by Generative Adversarial Netwo
         └────────────────┬────────────────┘
                          │
                          v
-              [Final Essay Output]
+                [Final Essay Output]
 ```
 
-## How It Works: The Adversarial Loop
+## How It Works: The Collaborative Feedback Loop
 
-1. **Creation Phase**: Multiple Creator agents work in parallel to generate research content, arguments, and evidence from different perspectives.
-
-2. **Evaluation Phase**: Evaluator agents critically assess the output across multiple dimensions:
-   - Factual accuracy and citation quality
-   - Logical coherence and argument strength  
-   - Structural flow and readability
-   - Originality and insight depth
-
-3. **Feedback Integration**: The Creator network receives detailed feedback and regenerates improved content, focusing on identified weaknesses.
-
-4. **Convergence**: Through iterative refinement, the system converges on a high-quality essay that satisfies all evaluation criteria.
+1. **Topic Analysis**: The system analyzes the research topic and determines the required expertise
+2. **Actor Phase**: Creator agents work in parallel to generate content from multiple perspectives
+3. **Critic Phase**: Evaluator agents assess the output and provide structured feedback
+4. **Refinement**: Actors incorporate feedback to improve the essay
+5. **Iteration**: The process repeats until quality thresholds are met
 
 ## Key Features
 
-### Adversarial Synthesis
-- **Creator-Evaluator Dynamics**: Mimics GAN architecture with competing objectives
-- **Multi-Agent Collaboration**: Specialized agents for different aspects of research
-- **Iterative Refinement**: Continuous improvement through feedback loops
-- **Quality Metrics**: Automated scoring across multiple dimensions
+### Multi-Agent Collaboration
+- **Parallel Agent Execution**: Multiple specialized agents work simultaneously
+- **Actor-Critic Dynamics**: Implements reinforcement learning principles with creators as actors and evaluators as critics
+- **Structured Feedback**: Critics provide actionable feedback that actors use for improvement
+- **Quality-Driven Iteration**: Continuous refinement based on quality metrics
 
-### Research Capabilities  
-- **Parallel Processing**: Multiple agents work simultaneously
-- **Best-of-N Selection**: Generate variations and select the highest quality
-- **Comprehensive Coverage**: Agents specialize in facts, arguments, counter-arguments, case studies, and more
-- **Citation Management**: Automatic extraction and formatting of all sources
+### Creator Agents (Actors)
+- Fact Synthesis Agent
+- Argument Construction Agent  
+- Evidence Integration Agent
+- Narrative Flow Agent
+- Citation Management Agent
 
-### Customization Options
-- **Depth Levels**: Quick, standard, thorough, or exhaustive research
-- **Quality Thresholds**: Set minimum quality scores for acceptance
-- **Iteration Limits**: Control the refinement process
-- **Output Formats**: Markdown, LaTeX, or HTML export
+### Evaluator Agents (Critics)
+- Factual Accuracy Critic
+- Argument Coherence Critic
+- Citation Quality Critic
+- Structure & Flow Critic
+- Originality & Insight Critic
 
 ## Installation
 
@@ -96,94 +92,93 @@ go build -o essayforge cmd/main.go
 
 ## Usage
 
-Set your Anthropic API key:
-```bash
-export ANTHROPIC_API_KEY="your-api-key"
-```
-
 Basic usage:
 ```bash
-./essayforge -t "quantum computing applications in cryptography"
+essayforge -t "your research topic"
 ```
 
-Advanced usage with full adversarial mode:
+Advanced usage with full collaborative mode:
 ```bash
-./essayforge \
-  -t "climate change mitigation strategies" \
-  -m adversarial \
+essayforge \
+  -t "artificial intelligence in healthcare" \
+  -m collaborative \
   --iterations 5 \
   --quality-threshold 0.85 \
-  --creator-agents 8 \
-  --evaluator-agents 5 \
-  -o climate-essay \
-  -f latex \
-  --show-dialogue
+  --show-dialogue \
+  -o ai-healthcare.md
 ```
 
-## Command Line Options
+## Command-Line Options
 
-### Core Options
 - `-t, --topic`: Research topic (required)
-- `-m, --mode`: Generation mode: standard, adversarial, ultra (default: adversarial)
-- `--iterations`: Maximum adversarial iterations (default: 3)
-- `--quality-threshold`: Minimum quality score (0-1) to accept output (default: 0.8)
-
-### Agent Configuration
-- `--creator-agents`: Number of parallel creator agents (default: 6)
-- `--evaluator-agents`: Number of evaluator critics (default: 4)
-- `-n, --best-of`: Variations per agent for selection (default: 3)
-- `-d, --depth`: Research depth: quick, standard, thorough, exhaustive
-
-### Output Options
 - `-o, --output`: Output file path (default: essay.md)
-- `-f, --format`: Output format: markdown, latex, html
-- `--show-dialogue`: Display the creator-evaluator dialogue
-- `--save-iterations`: Save all iteration drafts
+- `-m, --mode`: Generation mode: standard, collaborative, ultra (default: collaborative)
+- `--iterations`: Maximum collaborative iterations (default: 3)
+- `--quality-threshold`: Target quality score 0.0-1.0 (default: 0.8)
+- `--show-dialogue`: Display agent interactions
+- `--save-iterations`: Save intermediate versions
+- `--demo`: Run in demo mode (no API calls)
+- `-f, --format`: Output format: markdown, latex, html (default: markdown)
+- `--model`: Claude model to use (default: claude-3-sonnet-20240229)
 
-### Resource Management
-- `--token-limit`: Maximum tokens to use (0 = unlimited)
-- `--cost-limit`: Maximum cost in USD (0 = unlimited)
-- `--model`: Claude model selection (opus, sonnet, haiku)
+## Architecture Advantages
 
-## The Adversarial Advantage
+### Actor-Critic Benefits
+- **Structured Learning**: Actors learn from critic feedback, similar to RL policy improvement
+- **Quality Assurance**: Critics provide consistent quality evaluation
+- **Targeted Improvement**: Specific feedback enables focused refinement
 
-Traditional AI writing tools generate content in a single pass. EssayForge's adversarial approach ensures:
+### Multi-Agent Collaboration Benefits
+- **Diverse Perspectives**: Each agent brings specialized expertise
+- **Parallel Processing**: Agents work simultaneously for efficiency
+- **Emergent Quality**: Collective intelligence produces superior results
+- **Scalability**: Easy to add new specialized agents
 
-1. **Higher Quality**: Critical evaluation identifies and fixes weaknesses
-2. **Better Citations**: Evaluators verify source quality and relevance
-3. **Stronger Arguments**: Logical flaws are caught and corrected
-4. **Improved Clarity**: Structure and flow are iteratively refined
-5. **Reduced Hallucination**: Fact-checking agents validate all claims
+## The Collaborative Advantage
 
-## Example Workflow
+Traditional AI writing tools generate content in a single pass. EssayForge's actor-critic approach ensures:
+
+- **Higher Quality**: Multiple iterations with expert feedback
+- **Better Research**: Specialized agents for different aspects
+- **Improved Coherence**: Critics ensure logical flow and consistency
+- **Accurate Citations**: Dedicated agents for source management
+- **Emergent Insights**: Multi-agent collaboration reveals connections
+
+## Examples
 
 ```bash
-# Generate a research essay with visible adversarial dialogue
-./essayforge \
-  -t "The impact of large language models on scientific research" \
-  -m adversarial \
-  --iterations 4 \
+# Generate a research essay with visible collaborative dialogue
+essayforge \
+  -t "quantum computing applications" \
+  -m collaborative \
   --show-dialogue \
-  --save-iterations \
-  -o llm-science-essay
+  -o quantum-computing.md
 
-# Output:
-# → Iteration 1: Quality Score: 0.72 (Below threshold)
-# → Iteration 2: Quality Score: 0.81 (Improving...)  
-# → Iteration 3: Quality Score: 0.88 (Accepted!)
-# → Final essay saved to: llm-science-essay.md
-# → Iteration drafts saved to: llm-science-essay-iterations/
+# High-quality mode with multiple iterations
+essayforge \
+  -t "climate change mitigation strategies" \
+  --iterations 5 \
+  --quality-threshold 0.9 \
+  --save-iterations
+
+# Export to LaTeX format
+essayforge \
+  -t "machine learning in finance" \
+  -f latex \
+  -o ml-finance.tex
 ```
 
-## Requirements
+## Future Enhancements
 
-- Go 1.21+
-- Anthropic API key with Claude 3 access
-- Sufficient API credits for iterative generation
+- Additional specialized agents for domain-specific research
+- Enhanced critic evaluation metrics
+- Alternative collaborative strategies
+- Real-time web research integration
+- Multi-language support
 
 ## License
 
-MIT
+MIT License - see LICENSE file for details
 
 ## Contributing
 
